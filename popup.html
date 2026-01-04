@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Where is the money?</title>
+<link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+<header>
+  <h3>Where is the money?</h3>
+  <div id="status" class="status stopped">Stopped</div>
+</header>
+
+<section class="card">
+  <div class="presets">
+    <button class="preset active" data-ms="30000">30s</button>
+    <button class="preset" data-ms="60000">1m</button>
+    <button class="preset" data-ms="120000">2m</button>
+    <button class="preset" data-ms="300000">5m</button>
+  </div>
+
+  <div class="progress"><div id="bar"></div></div>
+  <div id="countdown" class="countdown">Not running</div>
+
+  <div class="buttons">
+    <button id="start" class="action">Start</button>
+    <button id="pause" class="action">Pause</button>
+    <button id="stop" class="action">Stop</button>
+  </div>
+</section>
+
+<script src="popup.js"></script>
+</body>
+</html>
