@@ -252,13 +252,13 @@ chrome.runtime.onMessage.addListener((msg) => {
     enabled = !!msg.enabled;
     badgeCountdown = msg.badgeCountdown !== false;
     nextReloadAt = typeof msg.nextReloadAt === "number" ? msg.nextReloadAt : null;
-    if (!enabled) {
+    if (enabled) {
+      startTicking();
+      // HiPages new leads detection (read-only)
+      setTimeout(() => { waitForLeadsAndLogNew().catch(() => {}); }, 750);
+    } else {
       stopTicking();
-      return;
     }
-    startTicking();
-    // HiPages new leads detection (read-only)
-    setTimeout(() => { waitForLeadsAndLogNew().catch(() => {}); }, 750);
   }
   if (msg?.type === "PAUSE") {
     // Paused in background; stop ticks to reduce noise
