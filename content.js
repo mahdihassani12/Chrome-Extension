@@ -219,10 +219,16 @@ async function waitForLeadsAndLogNew() {
     return;
   }
 
-  const firstLead = leads[0];
-  if (!firstLead) {
-    console.log("[Where is the money?] HiPages: No lead found in the first visible slot.");
-    return;
+  const seen = await loadSeenLeadIds();
+  const newLeads = leads.filter(l => !seen[l.id]);
+
+  if (newLeads.length) {
+    console.log("🆕 [Where is the money?] New HiPages leads detected:", newLeads);
+    // Mark new leads as seen
+    for (const l of newLeads) seen[l.id] = Date.now();
+    await saveSeenLeadIds(seen);
+  } else {
+    console.log("[Where is the money?] HiPages: No new leads this cycle.");
   }
 
   console.log("🆕 [Where is the money?] First HiPages lead (JSON):\n", JSON.stringify(firstLead, null, 2));
@@ -248,13 +254,13 @@ chrome.runtime.onMessage.addListener((msg) => {
     enabled = !!msg.enabled;
     badgeCountdown = msg.badgeCountdown !== false;
     nextReloadAt = typeof msg.nextReloadAt === "number" ? msg.nextReloadAt : null;
-    if (!enabled) {
+    if (enabled) {
+      startTicking();
+      // HiPages new leads detection (read-only)
+      setTimeout(() => { waitForLeadsAndLogNew().catch(() => {}); }, 750);
+    } else {
       stopTicking();
-      return;
     }
-    startTicking();
-    // HiPages new leads detection (read-only)
-    setTimeout(() => { waitForLeadsAndLogNew().catch(() => {}); }, 750);
   }
   if (msg?.type === "PAUSE") {
     // Paused in background; stop ticks to reduce noise
