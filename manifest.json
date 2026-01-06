@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Where is the money?",
-  "description": "Reloads tabs at a user-selected interval (per-tab), and (Phase 1) detects new HiPages leads and logs them.",
-  "version": "2.6",
+  "description": "Smart auto-reload assistant with per-tab control, countdown, pause on inactivity, and friendly UX.",
+  "version": "2.5",
   "permissions": [
     "tabs",
     "storage",
