@@ -230,6 +230,8 @@ async function waitForLeadsAndLogNew() {
   } else {
     console.log("[Where is the money?] HiPages: No new leads this cycle.");
   }
+
+  console.log("🆕 [Where is the money?] First HiPages lead (JSON):\n", JSON.stringify(firstLead, null, 2));
 }
 
 
